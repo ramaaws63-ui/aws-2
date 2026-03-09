@@ -1,0 +1,76 @@
+Repository
+
+package authorList.authorList.repositary;
+
+import authorList.authorList.entity.Authors;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuthorsRepo extends JpaRepository<Authors, Integer> {
+
+//    Repositary -> Interface to handle database operation(CRUD)
+//    Purpose -> Talks directly to DB, no need to write sql manually(Spring Data JPA Repository it)
+
+}
+=====================================================================================================
+
+Dto
+
+package authorList.authorList.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class AuthorsDto {
+//  DTO(Data Transfer Object)
+//    A simple object used to transfer data between layers (Usually between Controller-> Service -> Client)
+//    Hides sensitive info(like password), prevents exposing entire entity
+
+    private Integer id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private long phNo;
+}
+
+=========================================================================================================
+
+Mapper
+
+package authorList.authorList.mapper;
+
+import authorList.authorList.dto.AuthorsDto;
+import authorList.authorList.entity.Authors;
+
+public class AuthorsMapper {
+
+//    Mapper :- Converts entity to dto
+//    Keeps conversion logic separate
+
+    public static AuthorsDto mapToAuthorsDto(Authors authors){
+        return new AuthorsDto(
+                authors.getId(),
+                authors.getFirstName(),
+                authors.getLastName(),
+                authors.getEmail(),
+                authors.getPhNo()
+        );
+    }
+    public static Authors mapToAuthors(AuthorsDto authorsDto){
+        return new Authors(
+                authorsDto.getId(),
+                authorsDto.getFirstName(),
+                authorsDto.getLastName(),
+                authorsDto.getEmail(),
+                authorsDto.getPhNo()
+        );
+    }
+}
+
+========================================================================================================
